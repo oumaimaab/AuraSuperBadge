@@ -1,0 +1,32 @@
+<aura:component controller="BoatSearchController" implements="flexipage:availableForAllPageTypes">
+  <aura:attribute name="boatTypeList" type="BoatType__c[]" />
+  <aura:attribute name="selectedBoatType" type="String" default="" />
+  <aura:attribute name="hideNewButtonVar" type="Boolean" default="false" />
+  <aura:method name="hideNewButton" action="{!c.hideNewButton}" />
+  <aura:registerEvent name="formsubmit" type="c:FormSubmit" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <lightning:layout horizontalAlign="center" verticalAlign="center" class="slds-grid slds-gutters">
+    <lightning:layoutItem class="slds-col slds-size_1-of-3">
+      <lightning:select aura:id="boatTypes" onchange="{!c.onboatTypechange}">
+        <option text="All Types" value="" />
+        <aura:iteration items="{!v.boatTypeList}" var="boatType">
+          <option value="{!boatType.Id}" text="{!boatType.Name}" selected="{!boatType.selected}" />
+        </aura:iteration>
+      </lightning:select>
+    </lightning:layoutItem>
+
+    <lightning:layoutItem class="slds-clearfix">
+      <lightning:layoutItem class="slds-float_left">
+        <lightning:button class="searchButton" variant="brand" label="Search" title="Search"
+          onclick="{!c.onFormSubmit}" />
+      </lightning:layoutItem>
+
+      <lightning:layoutItem class="slds-float_right">
+        <aura:if isTrue="{!v.hideNewButtonVar}">
+          <lightning:button label="New" title="New" onclick="{!c.handleClick}" />
+        </aura:if>
+      </lightning:layoutItem>
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>
